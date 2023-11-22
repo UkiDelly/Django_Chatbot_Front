@@ -7,6 +7,13 @@ part 'chat_room_state.g.dart';
 class ChatRoomStateNotifier extends _$ChatRoomStateNotifier {
   @override
   FutureOr<List<ChatRoomModel>> build() {
-    return [];
+    return List.generate(
+      10,
+      (index) => ChatRoomModel(
+        id: index + 1,
+        name: "Chat room ${index + 1}",
+        createdAt: DateTime.now(),
+      ),
+    );
   }
 }
