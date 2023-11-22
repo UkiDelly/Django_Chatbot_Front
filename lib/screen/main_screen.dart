@@ -1,3 +1,4 @@
+import 'package:django_chatbot_front/screen/widgets/chat_room_list_widget.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatelessWidget {
@@ -8,9 +9,20 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("Main Screen"),
+    return Scaffold(
+      body: Container(
+        child: Row(
+          children: [
+            Flexible(
+              flex: 2,
+              child: ChatRoomListWidget(),
+            ),
+            Flexible(
+              flex: 8,
+              child: Placeholder(),
+            ),
+          ],
+        ),
       ),
     );
   }
