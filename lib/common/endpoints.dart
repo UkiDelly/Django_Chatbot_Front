@@ -7,15 +7,15 @@ abstract class EndPoint {
 }
 
 final class _AccountsEndpoint {
-  final String accounts = "/accounts";
+  final String _accounts = "/accounts";
 
-  String get register => "$accounts/register";
+  String get register => "$_accounts/register";
 
-  String get login => "$accounts/login";
+  String get login => "$_accounts/login";
 
-  String get refresh => "$accounts/refresh";
+  String get refresh => "$_accounts/refresh";
 
-  String get myInfo => "$accounts/myinfo";
+  String get myInfo => "$_accounts/myinfo";
 }
 
 final class _Chat {
@@ -27,7 +27,7 @@ final class _Chat {
 }
 
 final class _WebSocket {
-  final String webSocket = "/ws";
+  final String _chat = "/chat";
 
-  String chatRoom(int roomId) => "$webSocket/chat/$roomId";
+  String chatRoom(int roomId) => "$_chat/$roomId";
 }
