@@ -10,6 +10,8 @@ extension BuildContextExtension on BuildContext {
 
   double get halfHeight => fullHeight / 2;
 
+  double width(double percent) => (fullWith * percent) / 100;
+
   // 테마 관련
   TextTheme get textTheme => Theme.of(this).textTheme;
 }
