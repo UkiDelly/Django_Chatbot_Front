@@ -17,3 +17,16 @@ class LoginResponse with _$LoginResponse {
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => _$LoginResponseFromJson(json);
 }
+
+@freezed
+class AutoLoginResponse with _$AutoLoginResponse {
+  const AutoLoginResponse._();
+
+  const factory AutoLoginResponse({
+    required UserData user,
+    required String accessToken,
+  }) = _AutoLoginResponse;
+
+  factory AutoLoginResponse.fromJson(Map<String, dynamic> json) =>
+      _$AutoLoginResponseFromJson(json);
+}

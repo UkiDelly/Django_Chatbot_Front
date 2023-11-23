@@ -41,6 +41,22 @@ class AccountRepoitory {
     }
   }
 
+  Future<UserModel> autoLogin() async {
+    final refreshToken = await storage.read(key: "refresh_token");
+
+    try {
+      final res =
+          await dio.post("${EndPoint.accounts.autoLogin}/", data: {"refresh": refreshToken});
+
+      final loginResponse = AutoLoginResponse.fromJson(res.data);
+      await storage.write(key: "access_token", value: loginResponse.accessToken);
+
+      return loginResponse.user;
+    } on DioException catch (e) {
+      return UserModel.empty();
+    }
+  }
+
   Future<UserModel> register(RegisterRequestDto request) async {
     try {
       final res = await dio.post("${EndPoint.accounts.register}/", data: request.toJson());

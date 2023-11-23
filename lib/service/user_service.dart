@@ -12,7 +12,7 @@ part 'user_service.g.dart';
 class UserStateService extends _$UserStateService {
   @override
   FutureOr<UserModel> build() {
-    return UserModel.empty();
+    return autoLogin();
   }
 
   Future<void> emailLogin(String email, String password) async {
@@ -26,6 +26,17 @@ class UserStateService extends _$UserStateService {
       state = AsyncData(res);
     } else {
       state = AsyncError((res as UserModelError).message!, StackTrace.empty);
+    }
+  }
+
+  FutureOr<UserModel> autoLogin() async {
+    final repo = ref.read(accountRepoitoryProvider);
+    final res = await repo.autoLogin();
+
+    if (res is UserData) {
+      return res;
+    } else {
+      return UserModel.empty();
     }
   }
 

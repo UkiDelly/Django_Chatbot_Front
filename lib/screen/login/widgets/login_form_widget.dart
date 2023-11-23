@@ -38,14 +38,6 @@ class _LoginFormWidgetState extends ConsumerState<LoginFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(userStateServiceProvider, (previous, next) {
-      if (next is UserData) {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          context.go(MainScreen.routePath);
-        });
-      }
-    });
-
     return SizedBox(
       width: context.width(20),
       child: Form(

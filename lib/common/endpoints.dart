@@ -13,6 +13,8 @@ final class _AccountsEndpoint {
 
   String get login => "$_accounts/login";
 
+  String get autoLogin => "$_accounts/auto-login";
+
   String get refresh => "$_accounts/refresh";
 
   String get myInfo => "$_accounts/myinfo";
