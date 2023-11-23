@@ -1,5 +1,6 @@
 import 'package:django_chatbot_front/screen/login/login_screen.dart';
 import 'package:django_chatbot_front/screen/main/main_screen.dart';
+import 'package:django_chatbot_front/screen/register/register_sreen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,6 +14,7 @@ GoRouter goRouter(GoRouterRef ref) {
   return GoRouter(
     navigatorKey: rootNavKey,
     initialLocation: LoginScreen.routePath,
+    debugLogDiagnostics: true,
     routes: [
       // 메인 페이지
       GoRoute(
@@ -25,6 +27,12 @@ GoRouter goRouter(GoRouterRef ref) {
           path: LoginScreen.routePath,
           name: LoginScreen.routeName,
           pageBuilder: (context, state) => const NoTransitionPage(child: LoginScreen())),
+
+      // 회원가입 페이지
+      GoRoute(
+          path: RegisterSreen.routePath,
+          name: RegisterSreen.routeName,
+          pageBuilder: (context, state) => const NoTransitionPage(child: RegisterSreen()))
     ],
   );
 }
