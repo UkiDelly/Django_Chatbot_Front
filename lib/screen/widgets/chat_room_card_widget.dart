@@ -37,7 +37,8 @@ class _ChatRoomCardWidgetState extends State<ChatRoomCardWidget> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(width: 10.w),
-            Text(widget.chatRoom.name, style: context.textTheme.titleMedium),
+            Text(widget.chatRoom.name,
+                style: context.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold)),
             Spacer(),
             Visibility.maintain(
               visible: showButton,
