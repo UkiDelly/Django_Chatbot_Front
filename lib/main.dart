@@ -16,13 +16,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
-      builder: (context, child) => MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        title: "DRF Chatbot",
-        theme: theme,
-        routerConfig: goRouter,
-        builder: (context, child) => child!,
-      ),
+      builder: (context, child) => Consumer(builder: (context, ref, child) {
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: "DRF Chatbot",
+          theme: theme,
+          routerConfig: ref.watch(goRouterProvider),
+          builder: (context, child) => child!,
+        );
+      }),
     );
   }
 }
