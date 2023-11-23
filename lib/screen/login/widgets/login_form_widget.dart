@@ -58,7 +58,7 @@ class _LoginFormWidgetState extends ConsumerState<LoginFormWidget> {
             ),
             SizedBox(height: 5.h),
             textField(passwordController, passwordField: true),
-            SizedBox(height: 50.h),
+            SizedBox(height: 30.h),
             SizedBox(
               height: 60.h,
               width: context.fullWith,
