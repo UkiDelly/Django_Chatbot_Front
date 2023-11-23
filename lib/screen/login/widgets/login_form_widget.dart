@@ -1,18 +1,21 @@
 import 'package:django_chatbot_front/common/theme.dart';
+import 'package:django_chatbot_front/models/user_model.dart';
+import 'package:django_chatbot_front/screen/main/main_screen.dart';
 import 'package:django_chatbot_front/service/user_service.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
-class LoginFormWidget extends StatefulWidget {
+class LoginFormWidget extends ConsumerStatefulWidget {
   const LoginFormWidget({super.key});
 
   @override
-  _LoginFormWidgetState createState() => _LoginFormWidgetState();
+  ConsumerState createState() => _LoginFormWidgetState();
 }
 
-class _LoginFormWidgetState extends State<LoginFormWidget> {
+class _LoginFormWidgetState extends ConsumerState<LoginFormWidget> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -21,6 +24,14 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(userStateServiceProvider, (previous, next) {
+      if (next is UserData) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          context.go(MainScreen.routePath);
+        });
+      }
+    });
+
     return SizedBox(
       width: context.width(20),
       child: Form(
@@ -53,7 +64,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                         .copyWith(fontWeight: FontWeight.bold, color: AppColor.mainColor),
                   ),
                   onPressed: () async {
-                    await ref.read(userStateServiceProvider.notifier).login();
+                    await ref
+                        .read(userStateServiceProvider.notifier)
+                        .emailLogin(emailController.text, passwordController.text);
                   },
                   child: Text(
                     "로그인하기",
@@ -69,7 +82,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
 
   Widget textField(TextEditingController controller, {bool passwordField = false}) {
     return SizedBox(
-      height: 60.h,
+      height: 65.h,
       child: TextFormField(
         obscureText: passwordField ? hidePasword : false,
         controller: controller,

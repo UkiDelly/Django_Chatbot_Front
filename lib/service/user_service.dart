@@ -1,3 +1,4 @@
+import 'package:django_chatbot_front/models/user_model.dart';
 import 'package:django_chatbot_front/repositories/AccountRespository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -9,17 +10,16 @@ part 'user_service.g.dart';
 @Riverpod(keepAlive: true)
 class UserStateService extends _$UserStateService {
   @override
-  dynamic build() {
-    return null;
+  UserModel build() {
+    return UserModel.empty();
   }
 
-  Future<void> login() async {
+  Future<void> emailLogin(String email, String password) async {
     final repo = ref.read(accountRepoitoryProvider);
 
-    await repo.login(const LoginReqeustDto(
-        email: "daehyeon@gmail.com",
-        snsId: null,
-        password: "wjdrmsdud0922",
-        socialType: SocialType.email));
+    final res = await repo.login(LoginReqeustDto(
+        email: email, snsId: null, password: password, socialType: SocialType.email));
+
+    state = res;
   }
 }

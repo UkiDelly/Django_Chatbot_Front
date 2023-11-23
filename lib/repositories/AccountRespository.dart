@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:django_chatbot_front/common/endpoints.dart';
 import 'package:django_chatbot_front/models/request_models/LoginRequestDto.dart';
+import 'package:django_chatbot_front/models/user_model.dart';
 import 'package:django_chatbot_front/service/storage_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../models/response_models/login_response.dart';
 import '../service/dio_service.dart';
 
 part 'AccountRespository.g.dart';
@@ -20,12 +22,17 @@ class AccountRepoitory {
   final FlutterSecureStorage storage;
   final Dio dio;
 
-  Future<void> login(LoginReqeustDto request) async {
-    final res = await dio.post(
-      "${EndPoint.accounts.login}/",
-      data: request.toJson(),
-    );
+  Future<UserModel> login(LoginReqeustDto request) async {
+    try {
+      final res = await dio.post(
+        "${EndPoint.accounts.login}/",
+        data: request.toJson(),
+      );
 
-    print(res);
+      final loginResponse = LoginResponse.fromJson(res.data);
+      return loginResponse.user;
+    } on DioException catch (e) {
+      return UserModel.error();
+    }
   }
 }
