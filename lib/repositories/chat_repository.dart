@@ -1,5 +1,17 @@
 import 'package:dio/dio.dart';
+import 'package:django_chatbot_front/common/endpoints.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../service/dio_service.dart';
+import '../service/storage_service.dart';
+
+part 'chat_repository.g.dart';
+
+@riverpod
+ChatRepository chatRepository(ChatRepositoryRef ref) {
+  return ChatRepository(ref.watch(secureStorageProvider), ref.watch(dioProvider));
+}
 
 class ChatRepository {
   ChatRepository(this.storage, this.dio);
@@ -7,7 +19,21 @@ class ChatRepository {
   final FlutterSecureStorage storage;
   final Dio dio;
 
-  Future<void> getAllChatRoom() async {}
+  Future<void> addAccessToken() async {
+    final accessToken = await storage.read(key: "access_token");
+    dio.options.headers.addAll({"Authorization": "Bearer $accessToken"});
+  }
+
+  Future<void> getAllChatRoom() async {
+    await addAccessToken();
+
+    try {
+      final res = await dio.get("${EndPoint.chat.chatRooms}/");
+      print(res);
+    } on DioException catch (e) {
+      print(e.response);
+    }
+  }
 
   Future<void> addChatRoom() async {}
 
