@@ -20,7 +20,6 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: 10.h),
             Text("Chat GPT에게 궁금한 것을 모두 물어보세요..!", style: context.textTheme.titleLarge),
             LoginFormWidget(),
-            ElevatedButton(onPressed: () {}, child: Text("로그인하기"))
           ],
         ),
       ),
