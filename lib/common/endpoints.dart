@@ -23,6 +23,8 @@ final class _Chat {
 
   String chatRoom(int roomId) => "$chatRooms/$roomId";
 
+  String chatRoomSystemPrompt(int roomId) => "$chatRooms/$roomId/system";
+
   String chatRoomHistory(int roomId) => "$chatRooms/$roomId/history";
 }
 
