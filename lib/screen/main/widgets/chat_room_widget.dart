@@ -1,7 +1,8 @@
-import 'package:django_chatbot_front/screen/widgets/message_input_widget.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'message_input_widget.dart';
 
 class ChatRoomWidget extends StatelessWidget {
   const ChatRoomWidget({super.key});
@@ -12,11 +13,11 @@ class ChatRoomWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 10.h),
       child: Column(
         children: [
-          _ChatRoomHeader(),
-          Divider(thickness: 2.h, color: Color(0xffD8D8D8)),
-          Flexible(flex: 8, child: Placeholder()),
+          const _ChatRoomHeader(),
+          Divider(thickness: 2.h, color: const Color(0xffD8D8D8)),
+          const Flexible(flex: 8, child: Placeholder()),
           SizedBox(height: 20.h),
-          MessageInputWidget(),
+          const MessageInputWidget(),
         ],
       ),
     );
@@ -38,10 +39,10 @@ class _ChatRoomHeader extends StatelessWidget {
               "My Chat Bot",
               style: context.textTheme.displaySmall!.copyWith(fontWeight: FontWeight.bold),
             ),
-            Spacer(),
+            const Spacer(),
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.more_vert_rounded),
+              icon: const Icon(Icons.more_vert_rounded),
               iconSize: 25,
             )
           ],

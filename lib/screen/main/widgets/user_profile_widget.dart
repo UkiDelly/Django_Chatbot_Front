@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserProfileWidget extends StatelessWidget {
-  const UserProfileWidget({Key? key}) : super(key: key);
+  const UserProfileWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +17,16 @@ class UserProfileWidget extends StatelessWidget {
               backgroundColor: const Color(0xffE1E1E1),
               radius: 30.w,
             ),
-            Spacer(),
+            const Spacer(),
             //TODO: 유저 정보
             Text(
               "유저이름",
               style: context.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
             ),
-            Spacer(),
+            const Spacer(),
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.more_vert_rounded),
+              icon: const Icon(Icons.more_vert_rounded),
             )
           ],
         ),

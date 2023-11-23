@@ -1,0 +1,4 @@
+enum SocialType {
+  email,
+  google,
+}

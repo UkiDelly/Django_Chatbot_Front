@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'chat_room_model.freezed.dart';
 part 'chat_room_model.g.dart';
 
-@Freezed(unionValueCase: FreezedUnionCase.snake)
+@freezed
 class ChatRoomModel with _$ChatRoomModel {
   const ChatRoomModel._();
 

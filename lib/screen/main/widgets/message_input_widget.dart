@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MessageInputWidget extends StatefulWidget {
-  const MessageInputWidget({Key? key}) : super(key: key);
+  const MessageInputWidget({super.key});
 
   @override
   _MessageInputWidgetState createState() => _MessageInputWidgetState();

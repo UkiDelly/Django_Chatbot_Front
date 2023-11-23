@@ -39,12 +39,12 @@ class _ChatRoomCardWidgetState extends State<ChatRoomCardWidget> {
             SizedBox(width: 10.w),
             Text(widget.chatRoom.name,
                 style: context.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold)),
-            Spacer(),
+            const Spacer(),
             Visibility.maintain(
               visible: showButton,
               child: IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.more_vert_rounded),
+                icon: const Icon(Icons.more_vert_rounded),
               ),
             )
           ],

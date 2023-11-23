@@ -1,5 +1,5 @@
-import 'package:django_chatbot_front/screen/widgets/chat_room_list_widget.dart';
-import 'package:django_chatbot_front/screen/widgets/chat_room_widget.dart';
+import 'package:django_chatbot_front/screen/main/widgets/chat_room_list_widget.dart';
+import 'package:django_chatbot_front/screen/main/widgets/chat_room_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
