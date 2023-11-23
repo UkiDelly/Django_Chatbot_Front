@@ -7,10 +7,10 @@ part 'dio_service.g.dart';
 
 @riverpod
 Dio dio(DioRef ref) {
-  final dio = Dio(BaseOptions(
-    baseUrl: "http://localhost:8000",
-    contentType: "application/json",
-  ));
+  final dio =
+      Dio(BaseOptions(baseUrl: "http://localhost:8000", contentType: "application/json", headers: {
+    "Allow-Control-Allow-Origin": "*",
+  }));
 
   dio.interceptors.add(AwesomeDioInterceptor(
       logRequestTimeout: false,
