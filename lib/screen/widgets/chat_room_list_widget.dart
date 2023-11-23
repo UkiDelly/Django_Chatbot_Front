@@ -14,11 +14,10 @@ class ChatRoomListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 5.w),
-      child: Column(
+      child: const Column(
         children: [
-          const SizedBox(child: _HeaderWidget()),
-          Divider(thickness: 1.w, color: Color(0xffD8D8D8)),
-          const Expanded(child: _ChatRoomListWidget()),
+          SizedBox(child: _HeaderWidget()),
+          Expanded(child: _ChatRoomListWidget()),
           UserProfileWidget(),
         ],
       ),

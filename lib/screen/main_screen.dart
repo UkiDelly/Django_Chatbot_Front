@@ -12,23 +12,21 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Row(
-          children: [
-            Flexible(
-              flex: 2,
-              child: ChatRoomListWidget(),
-            ),
-            VerticalDivider(
-              thickness: 3.w,
-              color: Color(0xffD8D8D8),
-            ),
-            Flexible(
-              flex: 8,
-              child: ChatRoomWidget(),
-            ),
-          ],
-        ),
+      body: Row(
+        children: [
+          const Flexible(
+            flex: 2,
+            child: ChatRoomListWidget(),
+          ),
+          VerticalDivider(
+            thickness: 3.w,
+            color: const Color(0xffD8D8D8),
+          ),
+          const Flexible(
+            flex: 8,
+            child: ChatRoomWidget(),
+          ),
+        ],
       ),
     );
   }
