@@ -1,4 +1,5 @@
 import 'package:django_chatbot_front/screen/widgets/chat_room_card_widget.dart';
+import 'package:django_chatbot_front/screen/widgets/user_profile_widget.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,9 +17,9 @@ class ChatRoomListWidget extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(child: _HeaderWidget()),
-          SizedBox(height: 20.h),
+          Divider(thickness: 1.w, color: Color(0xffD8D8D8)),
           const Expanded(child: _ChatRoomListWidget()),
-          const SizedBox(height: 100, child: Placeholder()),
+          UserProfileWidget(),
         ],
       ),
     );
@@ -36,13 +37,13 @@ class _HeaderWidget extends StatelessWidget {
         children: [
           Text(
             "채팅",
-            style: context.textTheme.displaySmall!.copyWith(fontWeight: FontWeight.bold),
+            style: context.textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
           ),
           const Spacer(),
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.create),
-            iconSize: 25,
+            iconSize: 20,
           )
         ],
       ),

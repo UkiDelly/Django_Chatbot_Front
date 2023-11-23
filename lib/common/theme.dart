@@ -1,3 +1,3 @@
 import 'package:flutter/material.dart';
 
-final theme = ThemeData();
+final theme = ThemeData(scaffoldBackgroundColor: Colors.white);
