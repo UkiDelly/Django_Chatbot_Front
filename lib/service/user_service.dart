@@ -16,12 +16,17 @@ class UserStateService extends _$UserStateService {
   }
 
   Future<void> emailLogin(String email, String password) async {
+    state = const AsyncLoading();
     final repo = ref.read(accountRepoitoryProvider);
 
     final res = await repo.login(LoginReqeustDto(
         email: email, snsId: null, password: password, socialType: SocialType.email));
 
-    state = AsyncData(res);
+    if (res is UserData) {
+      state = AsyncData(res);
+    } else {
+      state = AsyncError((res as UserModelError).message!, StackTrace.empty);
+    }
   }
 
   Future<void> googleLogin() async {
