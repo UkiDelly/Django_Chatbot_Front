@@ -7,4 +7,5 @@ abstract class AppColor {
 final theme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
   colorSchemeSeed: const Color(0xff0E58FE),
+  useMaterial3: true,
 );

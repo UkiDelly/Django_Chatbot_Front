@@ -22,6 +22,12 @@ class _LoginFormWidgetState extends ConsumerState<LoginFormWidget> {
 
   bool hidePasword = true;
 
+  // create a function to validate email
+  bool validateEmail(String email) {
+    return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen(userStateServiceProvider, (previous, next) {
@@ -53,27 +59,25 @@ class _LoginFormWidgetState extends ConsumerState<LoginFormWidget> {
             SizedBox(height: 5.h),
             textField(passwordController, passwordField: true),
             SizedBox(height: 50.h),
-            Consumer(builder: (context, ref, child) {
-              return SizedBox(
-                height: 60.h,
-                width: context.fullWith,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
-                    textStyle: context.textTheme.labelLarge!
-                        .copyWith(fontWeight: FontWeight.bold, color: AppColor.mainColor),
-                  ),
-                  onPressed: () async {
-                    await ref
-                        .read(userStateServiceProvider.notifier)
-                        .emailLogin(emailController.text, passwordController.text);
-                  },
-                  child: Text(
-                    "로그인하기",
-                  ),
+            SizedBox(
+              height: 60.h,
+              width: context.fullWith,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+                  textStyle: context.textTheme.labelLarge!
+                      .copyWith(fontWeight: FontWeight.bold, color: AppColor.mainColor),
                 ),
-              );
-            }),
+                onPressed: () async {
+                  await ref
+                      .read(userStateServiceProvider.notifier)
+                      .emailLogin(emailController.text, passwordController.text);
+                },
+                child: Text(
+                  "로그인하기",
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -81,25 +85,43 @@ class _LoginFormWidgetState extends ConsumerState<LoginFormWidget> {
   }
 
   Widget textField(TextEditingController controller, {bool passwordField = false}) {
-    return SizedBox(
-      height: 65.h,
-      child: TextFormField(
-        obscureText: passwordField ? hidePasword : false,
-        controller: controller,
-        decoration: InputDecoration(
-          suffixIcon: passwordField
-              ? IconButton(
-                  onPressed: () => setState(() => hidePasword = !hidePasword),
-                  icon: Icon(hidePasword ? Icons.visibility : Icons.visibility_off))
-              : null,
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.grey),
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.grey),
-            borderRadius: BorderRadius.circular(10.r),
-          ),
+    return TextFormField(
+      obscureText: passwordField ? hidePasword : false,
+      validator: passwordField
+          ? null
+          : (value) {
+              final result = validateEmail(value!);
+
+              if (result) {
+                return null;
+              } else {
+                return "이메일 형식이 맞지 않습니다.";
+              }
+            },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      controller: controller,
+      decoration: InputDecoration(
+        constraints: BoxConstraints(minHeight: 50.h),
+        suffixIcon: passwordField
+            ? IconButton(
+                onPressed: () => setState(() => hidePasword = !hidePasword),
+                icon: Icon(hidePasword ? Icons.visibility : Icons.visibility_off))
+            : null,
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.grey),
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.grey),
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.circular(10.r),
         ),
       ),
     );
