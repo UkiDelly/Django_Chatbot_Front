@@ -18,13 +18,13 @@ GoRouter goRouter(GoRouterRef ref) {
       GoRoute(
           path: MainScreen.routePath,
           name: MainScreen.routeName,
-          builder: (context, state) => const MainScreen()),
+          pageBuilder: (context, state) => const NoTransitionPage(child: MainScreen())),
 
       // 로그인 페이지
       GoRoute(
           path: LoginScreen.routePath,
           name: LoginScreen.routeName,
-          builder: (context, state) => const LoginScreen()),
+          pageBuilder: (context, state) => const NoTransitionPage(child: LoginScreen())),
     ],
   );
 }
