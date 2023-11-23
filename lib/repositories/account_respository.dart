@@ -10,7 +10,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/response_models/login_response.dart';
 import '../service/dio_service.dart';
 
-part 'AccountRespository.g.dart';
+part 'account_respository.g.dart';
 
 @riverpod
 AccountRepoitory accountRepoitory(AccountRepoitoryRef ref) {

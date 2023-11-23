@@ -1,6 +1,6 @@
 import 'package:django_chatbot_front/models/request_models/register_request_dto.dart';
 import 'package:django_chatbot_front/models/user_model.dart';
-import 'package:django_chatbot_front/repositories/AccountRespository.dart';
+import 'package:django_chatbot_front/repositories/account_respository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart' hide Provider;
 
 import '../models/enums.dart';
