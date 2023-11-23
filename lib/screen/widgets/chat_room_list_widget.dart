@@ -1,3 +1,4 @@
+import 'package:django_chatbot_front/screen/widgets/chat_room_card_widget.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,14 +12,13 @@ class ChatRoomListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(left: 5.w),
       child: Column(
-        mainAxisSize: MainAxisSize.max,
         children: [
-          const Flexible(flex: 1, child: _HeaderWidget()),
+          const SizedBox(child: _HeaderWidget()),
           SizedBox(height: 20.h),
-          const Flexible(flex: 8, child: _ChatRoomListWidget()),
-          SizedBox(height: 20.h),
-          const Flexible(flex: 1, child: Placeholder()),
+          const Expanded(child: _ChatRoomListWidget()),
+          const SizedBox(height: 100, child: Placeholder()),
         ],
       ),
     );
@@ -62,21 +62,7 @@ class _ChatRoomListWidget extends ConsumerWidget {
       AsyncError() => Text(chatRoomState.error.toString()),
       AsyncData() => ListView.builder(
           itemCount: chatRoomState.value.length,
-          itemBuilder: (context, index) => Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-            margin: EdgeInsets.symmetric(vertical: 10.h),
-            height: 70.h,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(width: 10.w),
-                Text(chatRoomState.value[index].name, style: context.textTheme.titleMedium),
-                Spacer(),
-                IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_rounded))
-              ],
-            ),
-          ),
+          itemBuilder: (context, index) => ChatRoomCardWidget(chatRoomState.value[index]),
         ),
       _ => const SizedBox.shrink(),
     };
