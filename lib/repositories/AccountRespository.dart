@@ -30,6 +30,10 @@ class AccountRepoitory {
       );
 
       final loginResponse = LoginResponse.fromJson(res.data);
+
+      await storage.write(key: "access_token", value: loginResponse.token.accessToken);
+      await storage.write(key: "refresh_token", value: loginResponse.token.refreshToken);
+
       return loginResponse.user;
     } on DioException catch (e) {
       return UserModel.error();
