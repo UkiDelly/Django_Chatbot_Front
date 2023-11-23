@@ -1,12 +1,18 @@
+import 'package:django_chatbot_front/models/user_model.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class UserProfileWidget extends StatelessWidget {
+import '../../../service/user_service.dart';
+
+class UserProfileWidget extends ConsumerWidget {
   const UserProfileWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userState = ref.watch(userStateServiceProvider).value! as UserData;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: SizedBox(
@@ -20,7 +26,7 @@ class UserProfileWidget extends StatelessWidget {
             const Spacer(),
             //TODO: 유저 정보
             Text(
-              "유저이름",
+              userState.nickname,
               style: context.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
             ),
             const Spacer(),
