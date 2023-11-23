@@ -1,6 +1,8 @@
 import 'package:django_chatbot_front/common/theme.dart';
+import 'package:django_chatbot_front/service/user_service.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginFormWidget extends StatefulWidget {
@@ -40,21 +42,25 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             SizedBox(height: 5.h),
             textField(passwordController, passwordField: true),
             SizedBox(height: 50.h),
-            SizedBox(
-              height: 60.h,
-              width: context.fullWith,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
-                  textStyle: context.textTheme.labelLarge!
-                      .copyWith(fontWeight: FontWeight.bold, color: AppColor.mainColor),
+            Consumer(builder: (context, ref, child) {
+              return SizedBox(
+                height: 60.h,
+                width: context.fullWith,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+                    textStyle: context.textTheme.labelLarge!
+                        .copyWith(fontWeight: FontWeight.bold, color: AppColor.mainColor),
+                  ),
+                  onPressed: () async {
+                    await ref.read(userStateServiceProvider.notifier).login();
+                  },
+                  child: Text(
+                    "로그인하기",
+                  ),
                 ),
-                onPressed: () {},
-                child: Text(
-                  "로그인하기",
-                ),
-              ),
-            ),
+              );
+            }),
           ],
         ),
       ),
