@@ -1,4 +1,4 @@
-import 'package:django_chatbot_front/screen/main_screen.dart';
+import 'package:django_chatbot_front/screen/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

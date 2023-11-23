@@ -1,11 +1,11 @@
-import 'package:django_chatbot_front/screen/widgets/chat_room_card_widget.dart';
-import 'package:django_chatbot_front/screen/widgets/user_profile_widget.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../states/chat_room_state.dart';
+import 'chat_room_card_widget.dart';
+import 'user_profile_widget.dart';
 
 class ChatRoomListWidget extends StatelessWidget {
   const ChatRoomListWidget({super.key});
@@ -26,7 +26,7 @@ class ChatRoomListWidget extends StatelessWidget {
 }
 
 class _HeaderWidget extends StatelessWidget {
-  const _HeaderWidget({super.key});
+  const _HeaderWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class _HeaderWidget extends StatelessWidget {
 }
 
 class _ChatRoomListWidget extends ConsumerWidget {
-  const _ChatRoomListWidget({super.key});
+  const _ChatRoomListWidget();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
