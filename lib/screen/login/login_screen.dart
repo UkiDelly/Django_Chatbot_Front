@@ -1,11 +1,13 @@
 import 'package:django_chatbot_front/common/assets.dart';
 import 'package:django_chatbot_front/common/theme.dart';
 import 'package:django_chatbot_front/screen/login/widgets/login_form_widget.dart';
+import 'package:django_chatbot_front/screen/register/register_sreen.dart';
 import 'package:django_chatbot_front/service/user_service.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -21,7 +23,7 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Spacer(),
+            const Spacer(),
 
             // 제목
             Text("My Chat Bot", style: context.textTheme.displayLarge),
@@ -29,11 +31,11 @@ class LoginScreen extends StatelessWidget {
 
             // 부제목
             Text("Chat GPT에게 궁금한 것을 모두 물어보세요..!", style: context.textTheme.titleLarge),
-            Spacer(),
+            const Spacer(),
 
             //  로그인 폼
-            LoginFormWidget(),
-            Spacer(),
+            const LoginFormWidget(),
+            const Spacer(),
 
             // 회원가입, 소셜 로그인 버튼
             SizedBox(
@@ -50,8 +52,8 @@ class LoginScreen extends StatelessWidget {
                           textStyle: context.textTheme.labelLarge!
                               .copyWith(fontWeight: FontWeight.bold, color: AppColor.mainColor),
                         ),
-                        onPressed: () {},
-                        child: Text("회원가입")),
+                        onPressed: () => context.go(RegisterSreen.routePath),
+                        child: const Text("회원가입")),
                   ),
                   SizedBox(height: 20.h),
                   Consumer(builder: (context, ref, child) {
@@ -84,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
 
             // Footer
             Container(
@@ -96,12 +98,12 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(width: 20.w),
                     Text("My Chat Bot",
                         style: context.textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold)),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       "Copyright © Dae Hyeon Song, 2023",
                       style: context.textTheme.labelLarge!.copyWith(fontWeight: FontWeight.bold),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     InkWell(
                       splashFactory: NoSplash.splashFactory,
                       hoverColor: Colors.transparent,
