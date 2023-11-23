@@ -59,7 +59,7 @@ class _ChatRoomListWidget extends ConsumerWidget {
 
     return switch (chatRoomState) {
       AsyncLoading() => const CircularProgressIndicator(),
-      AsyncError() => Text(chatRoomState.error.toString()),
+      AsyncError() => const Text("조회에 실패했습니다."),
       AsyncData() => ListView.builder(
           itemCount: chatRoomState.value.length,
           itemBuilder: (context, index) => ChatRoomCardWidget(chatRoomState.value[index]),

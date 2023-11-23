@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:django_chatbot_front/common/endpoints.dart';
+import 'package:django_chatbot_front/models/chat_room_model.dart';
+import 'package:django_chatbot_front/models/response_models/chat_responses.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -24,15 +26,11 @@ class ChatRepository {
     dio.options.headers.addAll({"Authorization": "Bearer $accessToken"});
   }
 
-  Future<void> getAllChatRoom() async {
+  Future<List<ChatRoomModel>> getAllChatRoom() async {
     await addAccessToken();
-
-    try {
-      final res = await dio.get("${EndPoint.chat.chatRooms}/");
-      print(res);
-    } on DioException catch (e) {
-      print(e.response);
-    }
+    final res = await dio.get("${EndPoint.chat.chatRooms}/");
+    final resModel = ChatRoomsResponse.fromJson(res.data);
+    return resModel.chatRooms;
   }
 
   Future<void> addChatRoom() async {}
