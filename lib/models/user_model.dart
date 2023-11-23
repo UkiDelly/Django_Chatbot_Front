@@ -10,7 +10,7 @@ part 'user_model.g.dart';
 sealed class UserModel with _$UserModel {
   factory UserModel.empty() = UserModelEmpty;
 
-  factory UserModel.error() = UserModelError;
+  factory UserModel.error(String? message) = UserModelError;
 
   const factory UserModel.data({
     required int id,

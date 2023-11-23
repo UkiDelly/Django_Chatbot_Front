@@ -1,6 +1,13 @@
+import 'package:django_chatbot_front/models/user_model.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
+import 'package:django_chatbot_front/widgets/custom_dialogs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../service/user_service.dart';
+import '../../main/main_screen.dart';
 
 class RegisterFormWidget extends StatefulWidget {
   const RegisterFormWidget({super.key});
@@ -15,6 +22,9 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmController = TextEditingController();
+
+  bool hidePasword = true;
+  bool hidePaswordConfirm = true;
 
   final fieldDecoration = InputDecoration(
     constraints: BoxConstraints(minHeight: 50.h),
@@ -90,7 +100,11 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
           SizedBox(height: 10.h),
           TextFormField(
             controller: passwordController,
-            decoration: fieldDecoration,
+            obscureText: hidePasword,
+            decoration: fieldDecoration.copyWith(
+                suffixIcon: IconButton(
+                    onPressed: () => setState(() => hidePasword = !hidePasword),
+                    icon: Icon(hidePasword ? Icons.visibility : Icons.visibility_off))),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return "비밀번호을 입력해주세요";
@@ -109,7 +123,11 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
           SizedBox(height: 10.h),
           TextFormField(
             controller: passwordConfirmController,
-            decoration: fieldDecoration,
+            obscureText: hidePaswordConfirm,
+            decoration: fieldDecoration.copyWith(
+                suffixIcon: IconButton(
+                    onPressed: () => setState(() => hidePaswordConfirm = !hidePaswordConfirm),
+                    icon: Icon(hidePaswordConfirm ? Icons.visibility : Icons.visibility_off))),
             validator: (value) {
               if (value != passwordController.text) {
                 return "비밀번호가 일치하지 않습니다.";
@@ -122,23 +140,39 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
           SizedBox(height: 30.h),
 
           // 회원가입 버튼
-          SizedBox(
-            height: 70.h,
-            width: context.fullWith,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
-                    textStyle:
-                        context.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold)),
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    print("register");
-                  } else {
-                    print("fail");
-                  }
-                },
-                child: Text("가입하기")),
-          )
+          Consumer(builder: (context, ref, child) {
+            return SizedBox(
+              height: 70.h,
+              width: context.fullWith,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+                      textStyle:
+                          context.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold)),
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      context.showDialogWidget(const LoadingDialog());
+
+                      await ref.read(userStateServiceProvider.notifier).register(
+                          nickname: nickNameController.text,
+                          email: emailController.text,
+                          password: passwordController.text);
+
+                      context.pop();
+
+                      final userState = ref.watch(userStateServiceProvider);
+
+                      if (userState is AsyncData) {
+                        context.go(MainScreen.routePath);
+                      } else if (userState is AsyncError) {
+                        await context.showDialogWidget(
+                            ErrorDialog((userState.error as UserModelError).message!));
+                      }
+                    }
+                  },
+                  child: const Text("가입하기")),
+            );
+          })
         ],
       ),
     );
