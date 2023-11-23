@@ -2,8 +2,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../enums.dart';
 
-part 'LoginRequestDto.freezed.dart';
-part 'LoginRequestDto.g.dart';
+part 'login_request_dto.freezed.dart';
+part 'login_request_dto.g.dart';
 
 @freezed
 class LoginReqeustDto with _$LoginReqeustDto {
