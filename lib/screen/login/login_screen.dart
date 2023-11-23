@@ -1,8 +1,10 @@
 import 'package:django_chatbot_front/common/assets.dart';
 import 'package:django_chatbot_front/common/theme.dart';
 import 'package:django_chatbot_front/screen/login/widgets/login_form_widget.dart';
+import 'package:django_chatbot_front/service/user_service.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -52,29 +54,33 @@ class LoginScreen extends StatelessWidget {
                         child: Text("회원가입")),
                   ),
                   SizedBox(height: 20.h),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
-                    ),
-                    onPressed: () {},
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20.h),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(Assets.assetsGoogleLogo, width: 40.w, height: 40.h),
-                          SizedBox(width: 10.w),
-                          Text(
-                            "Google으로 로그인",
-                            style: context.textTheme.titleMedium!
-                                .copyWith(fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                  Consumer(builder: (context, ref, child) {
+                    return OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
                       ),
-                    ),
-                  )
+                      onPressed: () async {
+                        await ref.read(userStateServiceProvider.notifier).googleLogin();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20.h),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(Assets.assetsGoogleLogo, width: 40.w, height: 40.h),
+                            SizedBox(width: 10.w),
+                            Text(
+                              "Google으로 로그인",
+                              style: context.textTheme.titleMedium!
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  })
                 ],
               ),
             ),
