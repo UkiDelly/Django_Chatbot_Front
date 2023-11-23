@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
       builder: (context, child) => MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         title: "DRF Chatbot",
         theme: theme,
         routerConfig: goRouter,
