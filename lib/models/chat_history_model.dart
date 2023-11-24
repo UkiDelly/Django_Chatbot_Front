@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../utils/date_time_utils.dart';
 
 part 'chat_history_model.freezed.dart';
+part 'chat_history_model.g.dart';
 
 @freezed
 class ChatHistoryModel with _$ChatHistoryModel {

@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dio_service.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Dio dio(DioRef ref) {
   final dio =
       Dio(BaseOptions(baseUrl: "http://localhost:8000", contentType: "application/json", headers: {

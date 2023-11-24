@@ -119,7 +119,9 @@ class _LoginFormWidgetState extends ConsumerState<LoginFormWidget> {
 
                     final userState = ref.watch(userStateServiceProvider);
                     if (userState is AsyncData) {
-                      context.go(MainScreen.routePath);
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                        context.go(MainScreen.routePath);
+                      });
                     } else {
                       await context
                           .showDialogWidget(ErrorDialog((userState as UserModelError).message!));

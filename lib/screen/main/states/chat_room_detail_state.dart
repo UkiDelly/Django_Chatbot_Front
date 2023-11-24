@@ -9,7 +9,7 @@ import '../../../repositories/chat_repository.dart';
 part 'chat_room_detail_state.freezed.dart';
 part 'chat_room_detail_state.g.dart';
 
-@freezed
+@Freezed(fromJson: false, toJson: false)
 sealed class ChatRoomDetailState with _$ChatRoomDetailState {
   const factory ChatRoomDetailState.empty() = _ChatRoomDetailEmptyState;
 

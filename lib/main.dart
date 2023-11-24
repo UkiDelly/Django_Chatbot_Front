@@ -1,7 +1,7 @@
 import 'package:django_chatbot_front/common/routing.dart';
 import 'package:django_chatbot_front/common/theme.dart';
 import 'package:django_chatbot_front/screen/login/login_screen.dart';
-import 'package:django_chatbot_front/service/user_service.dart';
+import 'package:django_chatbot_front/utils/provider_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +16,7 @@ void main() async {
     url: dotenv.env["SUPABASE_URL"]!,
     anonKey: dotenv.env["SUPABASE_ANON_KEY"]!,
   );
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(observers: [RiverpodObserver()], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,9 +29,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(1920, 1080),
       builder: (context, child) => Consumer(
         builder: (context, ref, child) {
-          WebAppReloadDetector.onReload(() async {
-            ref.invalidate(userStateServiceProvider);
-          });
+          WebAppReloadDetector.onReload(() async {});
 
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
@@ -42,7 +40,7 @@ class MyApp extends StatelessWidget {
           );
         },
       ),
-      child: LoginScreen(),
+      child: const LoginScreen(),
     );
   }
 }
