@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/user_model.dart';
-import '../service/user_service.dart';
-
 part 'routing.g.dart';
 
 final rootNavKey = GlobalKey<NavigatorState>();
@@ -19,13 +16,14 @@ GoRouter goRouter(GoRouterRef ref) {
     initialLocation: LoginScreen.routePath,
     debugLogDiagnostics: true,
     redirect: (context, state) {
-      final userState = ref.watch(userStateServiceProvider).value!;
-
-      if (userState is UserModelEmpty || userState is UserModelError) {
-        return LoginScreen.routePath;
-      } else {
-        return null;
-      }
+      // final userState = ref.read(userStateServiceProvider).value!;
+      //
+      // if (userState is UserModelEmpty || userState is UserModelError) {
+      //   return LoginScreen.routePath;
+      // } else {
+      //   return null;
+      // }
+      return null;
     },
     routes: [
       // 메인 페이지
