@@ -35,7 +35,16 @@ class ChatRepository {
 
   Future<void> addChatRoom() async {}
 
-  Future<void> getChatRoomDetail(int roomId) async {}
+  Future<ChatRoomDetailResponse?> getChatRoomDetail(int roomId) async {
+    await addAccessToken();
+    try {
+      final res = await dio.get("${EndPoint.chat.chatRoom(roomId)}/");
+      final resModel = ChatRoomDetailResponse.fromJson(res.data);
+      return resModel;
+    } on DioException catch (e) {
+      return null;
+    }
+  }
 
   Future<void> getChatHistory(int roomId) async {}
 
