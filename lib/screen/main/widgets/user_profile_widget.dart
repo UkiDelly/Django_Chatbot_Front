@@ -11,7 +11,10 @@ class UserProfileWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userState = ref.watch(userStateServiceProvider).value! as UserData;
+    final nickname = ref.watch(userStateServiceProvider).whenOrNull(
+        data: (data) => (data as UserData).nickname,
+        error: (error, stackTrace) => "XXX",
+        loading: () => "XXX");
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -26,7 +29,7 @@ class UserProfileWidget extends ConsumerWidget {
             const Spacer(),
             //TODO: 유저 정보
             Text(
-              userState.nickname,
+              nickname ?? "XXX",
               style: context.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
             ),
             const Spacer(),

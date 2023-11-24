@@ -11,15 +11,15 @@ part 'chat_room_detail_state.g.dart';
 
 @Freezed(fromJson: false, toJson: false)
 sealed class ChatRoomDetailState with _$ChatRoomDetailState {
-  const factory ChatRoomDetailState.empty() = _ChatRoomDetailEmptyState;
+  const factory ChatRoomDetailState.empty() = ChatRoomDetailEmptyState;
 
   const factory ChatRoomDetailState.data({
     required ChatRoomModel chatRoom,
     required List<SystemPromptModel> systemPrompt,
     required List<ChatHistoryModel> chatHistory,
-  }) = _ChatRoomDetailDataState;
+  }) = ChatRoomDetailDataState;
 
-  const factory ChatRoomDetailState.error([String? message]) = _ChatRoomDetailErrorState;
+  const factory ChatRoomDetailState.error([String? message]) = ChatRoomDetailErrorState;
 }
 
 @Riverpod(keepAlive: true)
