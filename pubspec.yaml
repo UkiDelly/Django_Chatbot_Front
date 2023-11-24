@@ -60,6 +60,7 @@ dependencies:
 
   # 설정
   flutter_dotenv: ^5.1.0
+  flutterwebapp_reload_detector: ^0.0.1
 
 
   # The following adds the Cupertino Icons font to your application.

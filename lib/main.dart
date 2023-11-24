@@ -1,9 +1,12 @@
 import 'package:django_chatbot_front/common/routing.dart';
 import 'package:django_chatbot_front/common/theme.dart';
+import 'package:django_chatbot_front/screen/login/login_screen.dart';
+import 'package:django_chatbot_front/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutterwebapp_reload_detector/flutterwebapp_reload_detector.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -24,15 +27,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
-      builder: (context, child) => Consumer(builder: (context, ref, child) {
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          title: "DRF Chatbot",
-          theme: theme,
-          routerConfig: ref.watch(goRouterProvider),
-          builder: (context, child) => child!,
-        );
-      }),
+      builder: (context, child) => Consumer(
+        builder: (context, ref, child) {
+          WebAppReloadDetector.onReload(() async {
+            ref.invalidate(userStateServiceProvider);
+          });
+
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            title: "DRF Chatbot",
+            theme: theme,
+            routerConfig: ref.watch(goRouterProvider),
+            builder: (context, child) => child!,
+          );
+        },
+      ),
+      child: LoginScreen(),
     );
   }
 }
