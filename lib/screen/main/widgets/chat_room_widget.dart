@@ -1,6 +1,9 @@
+import 'package:django_chatbot_front/screen/main/states/chat_room_detail_state.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 
 import 'message_input_widget.dart';
 
@@ -24,11 +27,20 @@ class ChatRoomWidget extends StatelessWidget {
   }
 }
 
-class _ChatRoomHeader extends StatelessWidget {
+class _ChatRoomHeader extends ConsumerWidget {
   const _ChatRoomHeader();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final chatRoomName = ref.watch(chatRoomDetailStateNotifierProvider.select((value) {
+      if (value.hasError || value.requireValue is! ChatRoomDetailDataState) {
+        return "My Chat Bot";
+      } else {
+        Logger().d("${value.value}");
+        return (value.value as ChatRoomDetailDataState).chatRoom.name;
+      }
+    }));
+
     return SizedBox(
       height: 70.h,
       child: Padding(
@@ -36,7 +48,7 @@ class _ChatRoomHeader extends StatelessWidget {
         child: Row(
           children: [
             Text(
-              "My Chat Bot",
+              chatRoomName,
               style: context.textTheme.displaySmall!.copyWith(fontWeight: FontWeight.bold),
             ),
             const Spacer(),
