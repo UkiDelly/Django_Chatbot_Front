@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'web_socket_models.freezed.dart';
 part 'web_socket_models.g.dart';
 
-@freezed
+@Freezed(toJson: false)
 class WebSocketSend with _$WebSocketSend {
   const WebSocketSend._();
 

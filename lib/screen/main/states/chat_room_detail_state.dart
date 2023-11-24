@@ -1,5 +1,7 @@
 import 'package:django_chatbot_front/models/chat_history_model.dart';
 import 'package:django_chatbot_front/models/chat_room_model.dart';
+import 'package:django_chatbot_front/models/web_socket_models.dart';
+import 'package:django_chatbot_front/screen/main/states/chat_socket.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -23,12 +25,14 @@ sealed class ChatRoomDetailState with _$ChatRoomDetailState {
   const factory ChatRoomDetailState.error([String? message]) = ChatRoomDetailErrorState;
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 class ChatRoomDetailStateNotifier extends _$ChatRoomDetailStateNotifier {
   @override
   FutureOr<ChatRoomDetailState> build() {
     return const ChatRoomDetailState.empty();
   }
+
+  ChatSocketState _socket = const ChatSocketState.init();
 
   FutureOr<void> getChatRoomDetail(int roomId) async {
     state = const AsyncLoading();
@@ -39,6 +43,14 @@ class ChatRoomDetailStateNotifier extends _$ChatRoomDetailStateNotifier {
     if (res == null) {
       state = AsyncError(ChatRoomDetailState.error("오류가 발생했습니다."), StackTrace.empty);
     } else {
+      _socket = ref.watch(chatSocketProvider(roomId));
+
+      if (_socket is ChatSocketConnectedState) {
+        (_socket as ChatSocketConnectedState).messages.listen((event) {
+          addChat((event as WebSocketRecieve).content, role: Role.assistant);
+        });
+      }
+
       state = AsyncData(ChatRoomDetailState.data(
         chatRoom: res.chatRoom,
         systemPrompt: res.systemPrompt,
@@ -51,5 +63,15 @@ class ChatRoomDetailStateNotifier extends _$ChatRoomDetailStateNotifier {
     if (state.value is! ChatRoomDetailDataState) {
       return;
     }
+
+    final oldState = state.value as ChatRoomDetailDataState;
+    final newState = oldState.copyWith(chatHistory: [
+      ...oldState.chatHistory,
+      ChatHistoryModel(message: message, role: role, id: 0, createdAt: DateTime.now())
+    ]);
+
+    ref.read(chatSocketProvider(newState.chatRoom.id).notifier).send(message);
+
+    state = AsyncData(newState);
   }
 }

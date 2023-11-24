@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:django_chatbot_front/models/web_socket_models.dart';
-import 'package:django_chatbot_front/service/storage_service.dart';
 import 'package:django_chatbot_front/service/user_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logger/logger.dart';
@@ -26,7 +25,6 @@ class ChatSocketState with _$ChatSocketState {
 class ChatSocket extends _$ChatSocket {
   @override
   ChatSocketState build(int roomId) {
-    final storage = ref.watch(secureStorageProvider);
     _socket = WebSocket(Uri.parse("ws://localhost:8000${EndPoint.webSocket.chatRoom(roomId)}/"));
 
     final userState = ref.watch(userStateServiceProvider);
@@ -45,7 +43,8 @@ class ChatSocket extends _$ChatSocket {
       }
     });
 
-    final convertedMessages = _socket.messages.map((event) => WebSocketRecieve.fromJson(event));
+    final convertedMessages =
+        _socket.messages.map((event) => WebSocketRecieve(content: event as String));
 
     return ChatSocketState.connected(convertedMessages);
   }
@@ -57,6 +56,9 @@ class ChatSocket extends _$ChatSocket {
 
   void send(String message) {
     final convertedMessage = WebSocketSend(message: message);
-    _socket.send(convertedMessage.toJson());
+
+    Logger().d(convertedMessage);
+
+    _socket.send(convertedMessage.message);
   }
 }
