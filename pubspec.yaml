@@ -37,7 +37,7 @@ dependencies:
 
   # 네트워크
   dio: ^5.3.4
-  web_socket_channel: ^2.4.0
+  web_socket_client: ^0.1.0
   awesome_dio_interceptor: ^1.0.0
   url_launcher: ^6.2.1
 
