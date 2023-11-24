@@ -24,6 +24,8 @@ class AccountRepoitory {
   final Dio dio;
 
   Future<UserModel> login(LoginReqeustDto request) async {
+    dio.options.headers.clear();
+
     try {
       final res = await dio.post(
         "${EndPoint.accounts.login}/",
