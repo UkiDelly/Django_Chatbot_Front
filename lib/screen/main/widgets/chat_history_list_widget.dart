@@ -1,7 +1,6 @@
 import 'package:django_chatbot_front/common/theme.dart';
 import 'package:django_chatbot_front/models/chat_history_model.dart';
 import 'package:django_chatbot_front/screen/main/states/chat_room_detail_state.dart';
-import 'package:django_chatbot_front/screen/main/states/chat_socket.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +16,6 @@ class ChatHistoryListWidget extends ConsumerWidget {
       if (state.hasError || state.requireValue is! ChatRoomDetailDataState) {
         return <ChatHistoryModel>[];
       } else {
-        ref.watch(chatSocketProvider((state.value as ChatRoomDetailDataState).chatRoom.id));
         return (state.value as ChatRoomDetailDataState).chatHistory;
       }
     }));
