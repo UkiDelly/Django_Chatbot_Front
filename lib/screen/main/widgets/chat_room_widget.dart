@@ -1,4 +1,5 @@
 import 'package:django_chatbot_front/screen/main/states/chat_room_detail_state.dart';
+import 'package:django_chatbot_front/screen/main/widgets/chat_history_list_widget.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +19,7 @@ class ChatRoomWidget extends StatelessWidget {
         children: [
           const _ChatRoomHeader(),
           Divider(thickness: 2.h, color: const Color(0xffD8D8D8)),
-          const Flexible(flex: 8, child: Placeholder()),
+          const Flexible(flex: 8, child: ChatHistoryListWidget()),
           SizedBox(height: 20.h),
           const MessageInputWidget(),
         ],

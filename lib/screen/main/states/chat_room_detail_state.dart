@@ -3,6 +3,7 @@ import 'package:django_chatbot_front/models/chat_room_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../models/enums.dart';
 import '../../../models/system_prompt_model.dart';
 import '../../../repositories/chat_repository.dart';
 
@@ -43,6 +44,12 @@ class ChatRoomDetailStateNotifier extends _$ChatRoomDetailStateNotifier {
         systemPrompt: res.systemPrompt,
         chatHistory: res.chatHistory,
       ));
+    }
+  }
+
+  Future<void> addChat(String message, {required Role role}) async {
+    if (state.value is! ChatRoomDetailDataState) {
+      return;
     }
   }
 }
