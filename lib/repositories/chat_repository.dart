@@ -3,6 +3,7 @@ import 'package:django_chatbot_front/common/endpoints.dart';
 import 'package:django_chatbot_front/models/chat_room_model.dart';
 import 'package:django_chatbot_front/models/response_models/chat_responses.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../service/dio_service.dart';
@@ -20,6 +21,7 @@ class ChatRepository {
 
   final FlutterSecureStorage storage;
   final Dio dio;
+  final _logger = Logger();
 
   Future<void> addAccessToken() async {
     final accessToken = await storage.read(key: "access_token");
@@ -33,7 +35,17 @@ class ChatRepository {
     return resModel.chatRooms;
   }
 
-  Future<void> addChatRoom() async {}
+  Future<ChatRoomModel?> addChatRoom(String roomName) async {
+    await addAccessToken();
+    try {
+      final res = await dio.post("${EndPoint.chat.chatRooms}/", data: {"name": roomName});
+      final resModel = ChatRoomModel.fromJson(res.data);
+      return resModel;
+    } on DioException catch (e) {
+      _logger.e(e);
+      return null;
+    }
+  }
 
   Future<ChatRoomDetailResponse?> getChatRoomDetail(int roomId) async {
     await addAccessToken();
