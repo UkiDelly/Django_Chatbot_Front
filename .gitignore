@@ -45,3 +45,8 @@ app.*.map.json
 
 # fvm
 .fvm/flutter_sdk
+
+#TODO: 나중에 다시 활성화
+# generated files
+*.g.dart
+*.freezed.dart

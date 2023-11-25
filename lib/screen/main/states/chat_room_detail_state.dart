@@ -41,7 +41,7 @@ class ChatRoomDetailStateNotifier extends _$ChatRoomDetailStateNotifier {
     final res = await repo.getChatRoomDetail(roomId);
 
     if (res == null) {
-      state = AsyncError(ChatRoomDetailState.error("오류가 발생했습니다."), StackTrace.empty);
+      state = const AsyncError(ChatRoomDetailState.error("오류가 발생했습니다."), StackTrace.empty);
     } else {
       _socket = ref.watch(chatSocketProvider(roomId));
 
@@ -70,8 +70,9 @@ class ChatRoomDetailStateNotifier extends _$ChatRoomDetailStateNotifier {
       ChatHistoryModel(message: message, role: role, id: 0, createdAt: DateTime.now())
     ]);
 
-    ref.read(chatSocketProvider(newState.chatRoom.id).notifier).send(message);
-
+    if (role == Role.user) {
+      ref.read(chatSocketProvider(newState.chatRoom.id).notifier).send(message);
+    }
     state = AsyncData(newState);
   }
 }

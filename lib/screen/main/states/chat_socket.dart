@@ -15,11 +15,11 @@ part 'chat_socket.g.dart';
 @Freezed(toJson: false, fromJson: false)
 class ChatSocketState with _$ChatSocketState {
   const factory ChatSocketState.init() = ChatSocketInitialState;
-
-  const factory ChatSocketState.connected(Stream<dynamic> messages) = ChatSocketConnectedState;
-
+  const factory ChatSocketState.connected(Stream<WebSocketRecieve> messages) =
+      ChatSocketConnectedState;
   const factory ChatSocketState.disconnected() = ChatSocketDisconnectedState;
 }
+
 
 @riverpod
 class ChatSocket extends _$ChatSocket {
@@ -27,9 +27,12 @@ class ChatSocket extends _$ChatSocket {
   ChatSocketState build(int roomId) {
     _socket = WebSocket(Uri.parse("ws://localhost:8000${EndPoint.webSocket.chatRoom(roomId)}/"));
 
+    ref.onDispose(() => _socket.close());
+
     final userState = ref.watch(userStateServiceProvider);
 
     if (userState is! AsyncData) {
+      _socket.close();
       return const ChatSocketState.init();
     }
 
@@ -43,22 +46,20 @@ class ChatSocket extends _$ChatSocket {
       }
     });
 
-    final convertedMessages =
-        _socket.messages.map((event) => WebSocketRecieve(content: event as String));
+    _socket.messages.listen((event) {
+      print(event);
+    });
 
-    return ChatSocketState.connected(convertedMessages);
+    return ChatSocketState.connected(
+        _socket.messages.map((event) => WebSocketRecieve(content: event as String)));
   }
 
   final Logger _logger = Logger();
-
-  // late final Socket _socket;
   late final WebSocket _socket;
 
   void send(String message) {
     final convertedMessage = WebSocketSend(message: message);
-
     Logger().d(convertedMessage);
-
     _socket.send(convertedMessage.message);
   }
 }

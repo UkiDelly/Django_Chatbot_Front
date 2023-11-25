@@ -1,3 +1,4 @@
+import 'package:django_chatbot_front/models/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +27,7 @@ class _MessageInputWidgetState extends ConsumerState<MessageInputWidget> {
     }));
 
     if (roomId != null) {
-      ref.watch(chatSocketProvider(roomId!));
+      ref.watch(chatSocketProvider(roomId));
     }
 
     return SizedBox(
@@ -50,9 +51,12 @@ class _MessageInputWidgetState extends ConsumerState<MessageInputWidget> {
           IconButton(
             icon: const Icon(Icons.send_rounded),
             iconSize: 25,
-            onPressed: () {
+            onPressed: () async {
               if (roomId != null) {
-                ref.read(chatSocketProvider(roomId).notifier).send("자기소개 해봐");
+                await ref
+                    .read(chatRoomDetailStateNotifierProvider.notifier)
+                    .addChat(controller.text, role: Role.user);
+                controller.clear();
               }
             },
           ),
