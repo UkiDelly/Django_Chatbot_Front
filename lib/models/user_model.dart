@@ -18,8 +18,6 @@ sealed class UserModel with _$UserModel {
     required String email,
     required String? snsId,
     required SocialType socialType,
-    @JsonKey(name: "created_at", fromJson: dateTimeFromJson, toJson: dateTimeToJson)
-    required DateTime createdAt,
   }) = UserData;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
