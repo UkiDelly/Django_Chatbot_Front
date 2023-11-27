@@ -35,7 +35,7 @@ class ChatRepository {
     return resModel.chatRooms;
   }
 
-  Future<ChatRoomModel?> addChatRoom(String roomName) async {
+  Future<ChatRoomModel?> createChatRoom(String roomName) async {
     await addAccessToken();
     try {
       final res = await dio.post("${EndPoint.chat.chatRooms}/", data: {"name": roomName});

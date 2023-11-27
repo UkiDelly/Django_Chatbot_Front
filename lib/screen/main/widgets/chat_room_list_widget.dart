@@ -1,3 +1,4 @@
+import 'package:django_chatbot_front/screen/main/states/chat_room_detail_state.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,11 +40,13 @@ class _HeaderWidget extends StatelessWidget {
             style: context.textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
           ),
           const Spacer(),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.create),
-            iconSize: 20,
-          )
+          Consumer(builder: (context, ref, child) {
+            return IconButton(
+              onPressed: () => ref.invalidate(chatRoomDetailStateNotifierProvider),
+              icon: const Icon(Icons.create),
+              iconSize: 20,
+            );
+          })
         ],
       ),
     );

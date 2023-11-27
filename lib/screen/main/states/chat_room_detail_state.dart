@@ -1,6 +1,6 @@
 import 'package:django_chatbot_front/models/chat_history_model.dart';
 import 'package:django_chatbot_front/models/chat_room_model.dart';
-import 'package:django_chatbot_front/models/web_socket_models.dart';
+import 'package:django_chatbot_front/screen/main/states/chat_room_state.dart';
 import 'package:django_chatbot_front/screen/main/states/chat_socket.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -47,7 +47,7 @@ class ChatRoomDetailStateNotifier extends _$ChatRoomDetailStateNotifier {
 
       if (_socket is ChatSocketConnectedState) {
         (_socket as ChatSocketConnectedState).messages.listen((event) {
-          addChat((event as WebSocketRecieve).content, role: Role.assistant);
+          addChat((event).content, role: Role.assistant);
         });
       }
 
@@ -74,5 +74,20 @@ class ChatRoomDetailStateNotifier extends _$ChatRoomDetailStateNotifier {
       ref.read(chatSocketProvider(newState.chatRoom.id).notifier).send(message);
     }
     state = AsyncData(newState);
+  }
+
+  Future<void> createChatRoom(String message) async {
+    if (state.value is ChatRoomDetailDataState) {
+      return;
+    }
+    final repo = ref.read(chatRepositoryProvider);
+    final res = await repo.createChatRoom(message);
+
+    if (res == null) {
+      state = const AsyncError(ChatRoomDetailState.error("오류가 발생했습니다."), StackTrace.empty);
+    } else {
+      ref.invalidate(chatRoomStateNotifierProvider);
+      await getChatRoomDetail(res.id);
+    }
   }
 }

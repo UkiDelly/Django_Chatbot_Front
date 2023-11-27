@@ -57,6 +57,10 @@ class _MessageInputWidgetState extends ConsumerState<MessageInputWidget> {
                     .read(chatRoomDetailStateNotifierProvider.notifier)
                     .addChat(controller.text, role: Role.user);
                 controller.clear();
+              } else {
+                await ref
+                    .read(chatRoomDetailStateNotifierProvider.notifier)
+                    .createChatRoom(controller.text);
               }
             },
           ),
