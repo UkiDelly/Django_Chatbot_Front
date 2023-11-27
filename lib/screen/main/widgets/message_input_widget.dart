@@ -1,4 +1,5 @@
 import 'package:django_chatbot_front/models/enums.dart';
+import 'package:django_chatbot_front/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,6 +31,9 @@ class _MessageInputWidgetState extends ConsumerState<MessageInputWidget> {
       ref.watch(chatSocketProvider(roomId));
     }
 
+    final userState = ref.watch(userStateServiceProvider);
+    final userChatCount = ref.watch(userChatCountStateProvider);
+
     return SizedBox(
       height: 100.h,
       child: Row(
@@ -38,9 +42,11 @@ class _MessageInputWidgetState extends ConsumerState<MessageInputWidget> {
           Flexible(
             flex: 3,
             child: TextField(
+              enabled: userChatCount < 5,
               controller: controller,
               decoration: InputDecoration(
-                hintText: "메시지를 입력해주세요...",
+                hintText:
+                    (userChatCount >= 5) ? "오늘 더 이상 채팅할 수 없습니다. 내일 다시 와주세요" : "메시지를 입력해주세요...",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.r),
                 ),
@@ -51,18 +57,21 @@ class _MessageInputWidgetState extends ConsumerState<MessageInputWidget> {
           IconButton(
             icon: const Icon(Icons.send_rounded),
             iconSize: 25,
-            onPressed: () async {
-              if (roomId != null) {
-                await ref
-                    .read(chatRoomDetailStateNotifierProvider.notifier)
-                    .addChat(controller.text, role: Role.user);
-                controller.clear();
-              } else {
-                await ref
-                    .read(chatRoomDetailStateNotifierProvider.notifier)
-                    .createChatRoom(controller.text);
-              }
-            },
+            onPressed: userChatCount >= 5
+                ? null
+                : () async {
+                    if (roomId != null) {
+                      ref.read(userChatCountStateProvider.notifier).increaseChatCount();
+                      await ref
+                          .read(chatRoomDetailStateNotifierProvider.notifier)
+                          .addChat(controller.text, role: Role.user);
+                      controller.clear();
+                    } else {
+                      await ref
+                          .read(chatRoomDetailStateNotifierProvider.notifier)
+                          .createChatRoom(controller.text);
+                    }
+                  },
           ),
           const Spacer(),
         ],
