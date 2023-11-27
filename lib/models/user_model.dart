@@ -1,8 +1,6 @@
 import 'package:django_chatbot_front/models/enums.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../utils/date_time_utils.dart';
-
 part 'user_model.freezed.dart';
 part 'user_model.g.dart';
 
@@ -18,6 +16,7 @@ sealed class UserModel with _$UserModel {
     required String email,
     required String? snsId,
     required SocialType socialType,
+    required int chatCount,
   }) = UserData;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
