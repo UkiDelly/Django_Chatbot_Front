@@ -1,8 +1,10 @@
 import 'package:django_chatbot_front/models/user_model.dart';
+import 'package:django_chatbot_front/screen/login/login_screen.dart';
 import 'package:django_chatbot_front/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../service/user_service.dart';
 
@@ -33,9 +35,12 @@ class UserProfileWidget extends ConsumerWidget {
               style: context.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
             ),
             const Spacer(),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.more_vert_rounded),
+            TextButton(
+              onPressed: () {
+                ref.invalidate(userStateServiceProvider);
+                context.go(LoginScreen.routePath);
+              },
+              child: const Text("로그아웃"),
             )
           ],
         ),

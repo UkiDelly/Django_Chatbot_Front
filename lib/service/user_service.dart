@@ -1,6 +1,7 @@
 import 'package:django_chatbot_front/models/request_models/register_request_dto.dart';
 import 'package:django_chatbot_front/models/user_model.dart';
 import 'package:django_chatbot_front/repositories/account_repository.dart';
+import 'package:django_chatbot_front/service/storage_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart' hide Provider;
 
 import '../models/enums.dart';
@@ -12,6 +13,10 @@ part 'user_service.g.dart';
 class UserStateService extends _$UserStateService {
   @override
   FutureOr<UserModel> build() {
+    ref.onDispose(() {
+      final storage = ref.read(secureStorageProvider).deleteAll();
+    });
+
     return autoLogin();
   }
 
@@ -73,5 +78,22 @@ class UserStateService extends _$UserStateService {
     } else {
       state = AsyncError(res, StackTrace.empty);
     }
+  }
+}
+
+@Riverpod(keepAlive: true)
+class UserChatCountState extends _$UserChatCountState {
+  @override
+  int build() {
+    final userState = ref.watch(userStateServiceProvider);
+    if (userState is AsyncData) {
+      return (userState.value as UserData).chatCount;
+    }
+
+    return 0;
+  }
+
+  Future<void> increaseChatCount() async {
+    state += 1;
   }
 }

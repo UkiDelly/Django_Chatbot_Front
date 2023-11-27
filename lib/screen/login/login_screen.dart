@@ -10,9 +10,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../models/user_model.dart';
-import '../main/main_screen.dart';
-
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
@@ -31,14 +28,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(userStateServiceProvider, (previous, next) {
-      if (next is UserData) {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          context.go(MainScreen.routePath);
-        });
-      }
-    });
-
     return Scaffold(
       body: Center(
         child: Column(

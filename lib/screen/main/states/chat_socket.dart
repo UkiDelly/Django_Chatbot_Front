@@ -15,11 +15,12 @@ part 'chat_socket.g.dart';
 @Freezed(toJson: false, fromJson: false)
 class ChatSocketState with _$ChatSocketState {
   const factory ChatSocketState.init() = ChatSocketInitialState;
+
   const factory ChatSocketState.connected(Stream<WebSocketRecieve> messages) =
       ChatSocketConnectedState;
+
   const factory ChatSocketState.disconnected() = ChatSocketDisconnectedState;
 }
-
 
 @riverpod
 class ChatSocket extends _$ChatSocket {
